@@ -13,3 +13,5 @@ public class BookEventHandler {
         if (b.getCreatedAt() == null) b.setCreatedAt(Instant.now());
     }
 }
+
+// handler for repository events, it should be call when certain repository events occur.
