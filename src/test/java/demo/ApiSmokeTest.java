@@ -10,9 +10,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc // this allows testing Spring MVC controllers without starting a full HTTP server.
 class ApiSmokeTest {
-    @Autowired MockMvc mvc;
+    @Autowired MockMvc mvc; // will be used to simulate HTTP requests.
 
     @Test void rootExposesBooks() throws Exception {
         mvc.perform(get("/api"))
