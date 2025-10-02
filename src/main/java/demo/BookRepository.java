@@ -1,16 +1,17 @@
 package demo;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jdbc.repository.query.Query;
 
 import java.util.List;
 
 @RepositoryRestResource(path = "books") // endpoint: /api/books
 // RepositoryRestResource creates a RESTful API for the Book entity
 // enables HATEOAS
-public interface BookRepository extends JpaRepository<Book, Long> {
+public interface BookRepository extends CrudRepository<Book, Long> {
 
   @RestResource(path = "title-contains", rel = "title-contains")
   List<Book> findByTitleContainingIgnoreCase(@Param("title") String title);

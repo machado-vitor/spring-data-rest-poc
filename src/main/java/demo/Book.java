@@ -1,19 +1,22 @@
 package demo;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import java.time.Instant;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.relational.core.mapping.Column;
 
-@Entity
+@Table("book")
 public class Book {
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Id
   private Long id;
 
-  @NotBlank private String title;
+  private String title;
   private String author;
+  @Column("created_at")
   private Instant createdAt = Instant.now();
 
   public Long getId() { return id; }
+  public void setId(Long id) { this.id = id; }
   public String getTitle() { return title; }
   public void setTitle(String title) { this.title = title; }
   public String getAuthor() { return author; }
@@ -21,4 +24,3 @@ public class Book {
   public Instant getCreatedAt() { return createdAt; }
   public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
 }
-
