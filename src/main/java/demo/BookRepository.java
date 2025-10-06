@@ -4,7 +4,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.jdbc.repository.query.Query;
 
 import java.util.List;
 
@@ -12,6 +11,10 @@ import java.util.List;
 // RepositoryRestResource creates a RESTful API for the Book entity
 // enables HATEOAS
 public interface BookRepository extends CrudRepository<Book, Long> {
+// For this repo, the SDR exposes a collection resource at /books
+// The path is derived from the uncapitalized, pluralized, simple class name of the domain class.
+// It also exposes an item resource for each of the items managed by the repository.
+// By default, the http methods interact with these resources map to the according methods of CrudRepository
 
   @RestResource(path = "title-contains", rel = "title-contains")
   List<Book> findByTitleContainingIgnoreCase(@Param("title") String title);
