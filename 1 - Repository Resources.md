@@ -1,0 +1,21 @@
+# Repository Resources
+
+- **What gets exposed (and where)**
+  - Each Spring Data repository is exported as a REST collection at `{plural-domain}` (e.g., `books`) and each entity as an item at `/{plural-domain}/{id}`. 
+    - Names are derived from the domain class. They can be customized with `@RepositoryRestResource`.
+  - Which endpoint depends on the repository methods that are exposed. If it is maked with `@RestResource(exported=false)`, the corresponding HTTP methods disappear.
+- **HTTP methods & semantics**
+  - **Collection resource** (/books)
+    - GET lists entities, it supports paging and sorting. Returns HAL by default. 405 if findAll isn't exposed.
+    - POST creates entity via save(). The response body is controlled by `Accept` header of config `setReturnBodyOnCreate`. 405 if save isn't exposed.
+  - **Item resource** (/books/{id})
+    - GET fetch one via `findById`. 405 if not exposed.
+    - PUT full replace via save(). Body presence controlled by `Accept` or `setReturnBodyOnUpdate`.
+    - PATCH partial update. supports `application/patch+json` and `application/merge-patch+json`.
+    - DELETE `delete(T|ID|Iterable)`; body presence controlled by `Accept` or `setReturnBodyOnDelete`.
+  - Default status codes: `200 OK` 
+- **HATEOAS & media types**
+  - Responses are HAL (`application/hal+json`). The API is discoverable from the root (`GET /`) via `_links`.
+    - Each repository has a link and profile (ALPS).
+- **Associations (relationships)**
+  - Every relationship on an item gets its own **association resource**.. 
